@@ -19,12 +19,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 
-public class ScheduleGUI extends JFrame implements ActionListener{
+public class CreateScheduleGUI extends JFrame implements ActionListener{
     private JFrame mainFrame;
-    private JPanel panelNorth, panelWest,panelCenter;
+    private JPanel panelNorth, panelWest,panelCenter,panelheading,panelbutton,panelmiddle1,panelmiddle2,panelmiddle3,panelmiddle4;
     
     private JLabel lblPicture;
     
@@ -42,35 +45,61 @@ public class ScheduleGUI extends JFrame implements ActionListener{
     private Font font1;
     
     Insets btnInsets = new Insets(5,5,5,5);
-    
-     private JLabel lbltitle;
-     public JButton btnCreate;
-    public JButton btnView;
-    public JButton btnHelp;
-    
-    private JLabel lblempty;
+    private JLabel Heading;
+    private JLabel Date;
+    private JTextField txtDate;
+   private JLabel Time;
+   private JTextField txtTime;
+   private JLabel Emp_number;
+  private JTextField txtEmp_number;
+  private JLabel Emp_name;
+  private JTextField txtEmp_name;
+  
+  private JButton Insert,Update,Delete,View;
+  
+  ScheduleDAO dao;
+  Schedule attributes;
    
    
 
     
     
 
-    public ScheduleGUI(){
-        lblempty=new JLabel();
-        lbltitle= new JLabel( "SCHEDULE MANAGER",SwingConstants.CENTER);
+    public CreateScheduleGUI(){
+        dao= new ScheduleDAO();
+       Heading= new JLabel( "Create Schedule",SwingConstants.CENTER);
+       Date=new JLabel("Date:");
+       txtDate=new JTextField(10);
+       txtDate.setText("eg: 8 june 2021");
+       Time=new JLabel("Time:");
+       txtTime=new JTextField(10); 
+       txtTime.setText("eg: 08:30:10");
+
+       Emp_number=new JLabel("Employee Number:");
+       txtEmp_number=new JTextField(10);
+       txtEmp_number.setText("eg: 111111");
+       Emp_name=new JLabel("Employee name:");
+       txtEmp_name=new JTextField(10);
+       txtEmp_name.setText("eg: Divine Lemba");
+       
+         Insert = new JButton("Insert");
+         Insert.setBackground(Color.blue);
+        Insert.setForeground(Color.white);
+        Update = new JButton("Update");
+        Update.setBackground(Color.blue);
+        Update.setForeground(Color.white);
         
-         btnCreate = new JButton("Create+");
-         btnCreate.setBackground(Color.blue);
-         btnCreate.setForeground(Color.white);
-         btnCreate.setActionCommand("create");
-         
-        btnView= new JButton("View Schedule");
-        btnView.setBackground(Color.blue);
-        btnView.setForeground(Color.white);
+         Delete = new JButton("Delete");
+        Delete.setBackground(Color.blue);
+       Delete.setForeground(Color.white);
         
-        btnHelp = new JButton("Help");
-        btnHelp.setBackground(Color.blue);
-        btnHelp.setForeground(Color.white);
+         View = new JButton("View Schedule");
+         View.setBackground(Color.YELLOW);
+        View.setForeground(Color.blue);
+        
+        panelmiddle1=new JPanel();panelmiddle2=new JPanel();panelmiddle3=new JPanel();panelmiddle4=new JPanel();
+        panelbutton=new JPanel();
+        panelheading=new JPanel();
         
         mainFrame = new JFrame("PS Manager");
         panelNorth = new JPanel();
@@ -134,7 +163,8 @@ public class ScheduleGUI extends JFrame implements ActionListener{
         
         panelNorth.setLayout(new GridLayout(1,2));
         panelWest.setLayout(new GridLayout(10, 1));
-        panelCenter.setLayout(new GridLayout(8, 6));
+        panelCenter.setLayout(new GridLayout(10, 1));
+        panelCenter.setBorder(BorderFactory.createEmptyBorder(20, 20, 8, 30));
    
         
         
@@ -156,15 +186,43 @@ public class ScheduleGUI extends JFrame implements ActionListener{
         panelWest.add(panelBlank5);
         panelWest.add(btnSchedule);
         
-        panelCenter.add(lbltitle);
-        panelCenter.add(lblempty);
-        panelCenter.add(btnCreate);
         
-        panelCenter.add(btnView);
-        panelCenter.add(btnHelp);
+        panelheading.add(Heading);
+        panelheading.setLayout( new GridLayout(1,1));
+        panelbutton.add (Insert);  panelbutton.add (Update); panelbutton.add (Delete);panelbutton.add (View);
+        panelbutton.setLayout(new GridLayout(1,4));
+        panelmiddle1.setLayout(new GridLayout(2,2));
+        panelmiddle2.setLayout(new GridLayout(2,2));
+        panelmiddle3.setLayout(new GridLayout(2,2));
+        panelmiddle4.setLayout(new GridLayout(2,2));
+
+
+
+        panelmiddle1.add(Date);panelmiddle1.add(txtDate);
+        panelmiddle2.add(Time);panelmiddle2.add(txtTime);
+        panelmiddle3.add(Emp_number);panelmiddle3.add(txtEmp_number);
+        panelmiddle4.add(Emp_name);panelmiddle4.add(txtEmp_name);
+        
+        
+        panelCenter.add(panelheading);
+        
+        panelCenter.add(panelmiddle1);
+        panelCenter.add(panelmiddle2);
+        panelCenter.add(panelmiddle3); 
+        panelCenter.add(panelmiddle4);
+       
+        panelCenter.add(panelbutton);
+       
+
+        
         
       
-       
+        
+
+
+
+
+        
         mainFrame.addWindowListener(new WindowAdapter(){
         @Override
         public void windowClosing(WindowEvent e){
@@ -177,37 +235,45 @@ public class ScheduleGUI extends JFrame implements ActionListener{
         mainFrame.setVisible(true);
     
         
-        btnCreate.addActionListener(new ActionListener(){
+        Insert.addActionListener(this);
+        Update.addActionListener(this);
+        Delete.addActionListener(this);
+        View.addActionListener(this);
+       
+
     
         
+    
+        
+    }
       @Override
       public void actionPerformed(ActionEvent e)
-      {try{
-          if(e.getSource()==btnCreate){
-              
-             CreateScheduleGUI frame2=new CreateScheduleGUI();
-             frame2.setVisible(true);
-             frame2.pack();
-             
-            mainFrame. dispose();}}
-          catch(Exception ex){
-                  ex.printStackTrace();}
+      {if (e.getSource() == Insert) {
+            String date = txtDate.getText();
+            String time = txtTime.getText();
+            String emp_number = txtEmp_number.getText();
+            String emp_name = txtEmp_name.getText();
+           
+            Schedule component = new Schedule(date, time, emp_number, emp_name);
+          try {
+              attributes = dao.save(component);
+          } catch (SQLException ex) {
+              Logger.getLogger(CreateScheduleGUI.class.getName()).log(Level.SEVERE, null, ex);
           }
-    });
+            
+            if (attributes.equals(component)){
+                JOptionPane.showMessageDialog(null, "Data Inserted Successfully");
+            }else{
+                JOptionPane.showMessageDialog(null,"Data not added");
+            }
+        }
        
       }
     
    
     
 public static void main(String[] args) {
-       new ScheduleGUI().runSheduleGUI();
-       
-
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        new CreateScheduleGUI().runSheduleGUI();
     }
     
     
