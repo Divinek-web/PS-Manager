@@ -43,10 +43,10 @@ public class ScheduleDAOTest {
     @Test
     public void testSave() throws Exception {
         System.out.println("save");
-        Schedule schedule =new Schedule("1 january 2021","08:30:10","111111","Divine Lemba");
+        Schedule schedule =new Schedule("2 january 2021","09:30:10","111118","Rebecca");
         ScheduleDAO instance = new ScheduleDAO();
         Schedule expResult = schedule;
-        Schedule result = instance.save(schedule);
+        Schedule result = instance.saveSchedule(schedule);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

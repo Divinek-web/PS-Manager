@@ -19,6 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import javax.swing.*;
 
 
@@ -40,24 +41,24 @@ public class ScheduleGUI extends JFrame implements ActionListener{
     
     
     private Font font1;
+    private Font font2;
     
     Insets btnInsets = new Insets(5,5,5,5);
     
      private JLabel lbltitle;
      public JButton btnCreate;
-    public JButton btnView;
-    public JButton btnHelp;
+     public JButton btnView;
+     public JButton btnHelp;
     
-    private JLabel lblempty;
-   
-   
-
-    
-    
-
+     private JLabel lblempty;
+ 
+  
     public ScheduleGUI(){
+       // components of panel center
+       
         lblempty=new JLabel();
         lbltitle= new JLabel( "SCHEDULE MANAGER",SwingConstants.CENTER);
+        lbltitle.setFont(font2);
         
          btnCreate = new JButton("Create+");
          btnCreate.setBackground(Color.blue);
@@ -72,6 +73,7 @@ public class ScheduleGUI extends JFrame implements ActionListener{
         btnHelp.setBackground(Color.blue);
         btnHelp.setForeground(Color.white);
         
+        //components of panel North and West
         mainFrame = new JFrame("PS Manager");
         panelNorth = new JPanel();
         panelNorth.setBackground(new Color(27,78,164));
@@ -85,6 +87,8 @@ public class ScheduleGUI extends JFrame implements ActionListener{
         mainFrame.setPreferredSize(new Dimension(width, height));
         
         font1 = new Font("Impact", Font.PLAIN,40);
+        font2 = new Font("Impact", Font.BOLD,45);
+
         
         lblPicture = new JLabel(new ImageIcon("src/logo.png"),SwingConstants.LEFT);
         lblPicture.setPreferredSize(new Dimension(100,100));
@@ -141,10 +145,10 @@ public class ScheduleGUI extends JFrame implements ActionListener{
         mainFrame.add(panelNorth, BorderLayout.NORTH);
         mainFrame.add(panelWest, BorderLayout.WEST);
         mainFrame.add(panelCenter, BorderLayout.CENTER);
-        
+        //panel north
         panelNorth.add(lblPicture);
         panelNorth.add(lblCompanyName);
-        
+        //panel west
         panelWest.add(panelBlank1);
         panelWest.add(btnInventory);
         panelWest.add(panelBlank2);
@@ -155,7 +159,7 @@ public class ScheduleGUI extends JFrame implements ActionListener{
         panelWest.add(btnPersonnel);
         panelWest.add(panelBlank5);
         panelWest.add(btnSchedule);
-        
+        //panel center
         panelCenter.add(lbltitle);
         panelCenter.add(lblempty);
         panelCenter.add(btnCreate);
@@ -185,11 +189,13 @@ public class ScheduleGUI extends JFrame implements ActionListener{
       {try{
           if(e.getSource()==btnCreate){
               
-             CreateScheduleGUI frame2=new CreateScheduleGUI();
-             frame2.setVisible(true);
-             frame2.pack();
-             
-            mainFrame. dispose();}}
+            new CreateScheduleGUI().runSheduleGUI2();
+            mainFrame. dispose();
+          
+          
+          
+          }
+      }
           catch(Exception ex){
                   ex.printStackTrace();}
           }

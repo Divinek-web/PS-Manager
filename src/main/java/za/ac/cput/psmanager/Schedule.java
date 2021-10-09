@@ -10,38 +10,22 @@ package za.ac.cput.psmanager;
  * @author Divine K
  */
 public class Schedule {
-    private  String Date;
-    private  String Time;
+  
     private  String Emp_number;
     private String Emp_name;
+    private  String Date;
+    private  String Time;
 
-    public Schedule(String Date, String Time, String Emp_number, String Emp_name) {
-        this.Date = Date;
-        this.Time = Time;
+    public Schedule( String Emp_number, String Emp_name,String Date, String Time) {
+       
         this.Emp_number = Emp_number;
         this.Emp_name = Emp_name;
-    }
-
-    @Override
-    public String toString() {
-        return "Schedule{" + "Date=" + Date + ", Time=" + Time + ", Emp_number=" + Emp_number + ", Emp_name=" + Emp_name + '}';
-    }
-
-    public String getDate() {
-        return Date;
-    }
-
-    public void setDate(String Date) {
         this.Date = Date;
-    }
-
-    public String getTime() {
-        return Time;
-    }
-
-    public void setTime(String Time) {
         this.Time = Time;
     }
+
+   
+   
 
     public String getEmp_number() {
         return Emp_number;
@@ -59,6 +43,25 @@ public class Schedule {
         this.Emp_name = Emp_name;
     }
     
-    
+     public String getDate() {
+        return Date;
+    }
+
+    public void setDate(String Date) {
+        this.Date = Date;
+    }
+
+    public String getTime() {
+        return Time;
+    }
+
+    public void setTime(String Time) {
+        this.Time = Time;
+    }
+
+    @Override
+    public String toString() {
+        return "Schedule{" + "Emp_number=" + Emp_number + ", Emp_name=" + Emp_name + ", Date=" + Date + ", Time=" + Time + '}';
+    }
     
 }
